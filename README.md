@@ -11,7 +11,7 @@ This version keeps the original industrial/editorial direction but simplifies th
 - Mobile selector uses a full-screen one-step flow with internal scrolling so options are not clipped.
 - Added subtle scroll-reveal and stagger animations with reduced-motion support.
 - Simplified copy and navigation.
-- Updated product data to reflect the supplied catalogue sheets, including Mili, India/Varsa and the corrected widths/gauges.
+- Updated product data to reflect the supplied catalogue sheets, including Mili, India/Bharosha and the corrected widths/gauges.
 - Quote form carries the exact selected configuration.
 
 ## Run
