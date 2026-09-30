@@ -36,7 +36,7 @@ const products = [
   // PATTA CHAK — supplied chart
   ...['54"'].flatMap(size => [300,400].map(gauge=>({material:'Patta Chak',brand:'India',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'indian'}))),
   ...['54"','72"'].flatMap(size => [300,400].map(gauge=>({material:'Patta Chak',brand:'Polar White',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'polar-white'}))),
-  ...[{brand:'Varasa',logo:'varasa',size:'54"',gauge:300},{brand:'Varasa',logo:'varasa',size:'36"',gauge:250},
+  ...[{brand:'Varsa',logo:'varasa',size:'54"',gauge:300},{brand:'Varsa',logo:'varasa',size:'36"',gauge:250},
      {brand:'Sisa',logo:'sisa',size:'54"',gauge:300},{brand:'Sisa',logo:'sisa',size:'36"',gauge:250}]
     .map(p=>({...p,material:'Patta Chak',colours:['K.P (green)','Blue','Red','Pink','Yellow']}))
 ];
@@ -288,63 +288,138 @@ renderAll();
 
 function initMotion(){
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!window.gsap || !window.ScrollTrigger || reduce) return;
+  const loader=document.querySelector('#page-loader');
+  
+  if(reduce || !window.gsap || !window.ScrollTrigger){
+    if(loader) loader.style.display = 'none';
+    return;
+  }
+  
   gsap.registerPlugin(ScrollTrigger);
   document.body.classList.add('motion-ready');
   const ease='power3.out';
-  const loader=document.querySelector('#page-loader');
-  // Short branded entrance; the loader never intercepts clicks and always clears.
-  gsap.timeline({defaults:{ease}})
-    .fromTo('.loader-inner img',{autoAlpha:0,y:16,scale:.93},{autoAlpha:1,y:0,scale:1,duration:.48})
-    .to('.loader-fill',{scaleX:1,duration:.7,ease:'power2.inOut'},'<.12')
-    .to(loader,{autoAlpha:0,yPercent:-8,duration:.55,ease:'power2.inOut'},'>-.06')
-    .set(loader,{display:'none'});
-  gsap.fromTo('.site-header',{y:-45,autoAlpha:0},{y:0,autoAlpha:1,duration:.9,delay:.22,ease});
-  gsap.fromTo('.hero-copy > *',{y:48,autoAlpha:0},{y:0,autoAlpha:1,duration:.9,stagger:.13,delay:.38,ease,clearProps:'transform,opacity,visibility'});
-  gsap.fromTo('.hero-backdrop',{autoAlpha:0},{autoAlpha:1,duration:1.2,delay:.12,ease:'power2.out'});
-  gsap.fromTo('.hero-backdrop > img',{scale:1.12},{scale:1.04,duration:2.2,delay:.15,ease:'power3.out',clearProps:'transform'});
-  gsap.fromTo('.hero-backdrop-tint',{autoAlpha:0},{autoAlpha:1,duration:1.4,delay:.35,ease:'power2.out'});
-  gsap.fromTo('.hero-float-left',{x:-45,autoAlpha:0},{x:0,autoAlpha:1,duration:.8,delay:1.05,ease,clearProps:'transform,opacity,visibility'});
-  gsap.fromTo('.hero-float-right',{x:45,autoAlpha:0},{x:0,autoAlpha:1,duration:.8,delay:1.15,ease,clearProps:'transform,opacity,visibility'});
-  gsap.fromTo('.hero-scroll-cue',{y:12,autoAlpha:0},{y:0,autoAlpha:1,duration:.7,delay:1.35,ease,clearProps:'transform,opacity,visibility'});
-  gsap.to('.hero-backdrop > img',{yPercent:5,ease:'none',scrollTrigger:{trigger:'.hero-overlay',start:'top top',end:'bottom top',scrub:1.2}});
-  gsap.fromTo('.trust-grid > div',{y:28,autoAlpha:0},{y:0,autoAlpha:1,duration:.75,stagger:.13,ease,scrollTrigger:{trigger:'.trust-strip',start:'top 88%',once:true},clearProps:'transform,opacity,visibility'});
-  // Per-section reveals with a single GSAP owner, avoiding CSS/GSAP conflicts.
-  gsap.utils.toArray('.section-heading, .story-copy, .authenticity-grid > div:first-child, .configure-callout, .stores-note, .cta-content, .footer-top').forEach(el=>{
-    gsap.fromTo(el,{y:46,autoAlpha:0},{y:0,autoAlpha:1,duration:1,ease,scrollTrigger:{trigger:el,start:'top 88%',once:true},clearProps:'transform,opacity,visibility'});
-  });
-  gsap.utils.toArray('.story-media, .catalogue-frame').forEach((el,i)=>{
-    gsap.fromTo(el,{x:i%2?-65:-65,autoAlpha:0,clipPath:'inset(0 14% 0 0)'},{x:0,autoAlpha:1,clipPath:'inset(0 0% 0 0)',duration:1.1,ease,scrollTrigger:{trigger:el,start:'top 88%',once:true},clearProps:'transform,opacity,visibility,clipPath'});
-  });
-  gsap.utils.toArray('.product-grid, .application-grid, .process-grid, .store-grid, .why-grid').forEach(grid=>{
-    const cards=Array.from(grid.children).filter(el=>el.matches('.product-card,.application-card,.process-item,.store-card,.why-grid > div'));
-    if(!cards.length)return;
-    gsap.fromTo(cards,{y:54,autoAlpha:0,scale:.965},{y:0,autoAlpha:1,scale:1,duration:.8,stagger:.11,ease,scrollTrigger:{trigger:grid,start:'top 84%',once:true},clearProps:'transform,opacity,visibility'});
-  });
-  gsap.utils.toArray('.product-card, .store-card, .application-card').forEach(card=>{
-    if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-      const image=card.querySelector('img');
-      card.addEventListener('mouseenter',()=>{gsap.to(card,{y:-6,duration:.35,ease:'power2.out',overwrite:'auto'});if(image)gsap.to(image,{scale:1.065,duration:.55,ease,overwrite:'auto'});});
-      card.addEventListener('mouseleave',()=>{gsap.to(card,{y:0,duration:.4,ease:'power2.out',overwrite:'auto'});if(image)gsap.to(image,{scale:1,duration:.55,ease,overwrite:'auto'});});
+  
+  // Progress counter and branded loader animation
+  const progressObj = { val: 0 };
+  const percentEl = document.querySelector('#loader-percent');
+  const statusEl = document.querySelector('#loader-status');
+  const loaderFill = document.querySelector('#loader-fill');
+  
+  const loadTl = gsap.timeline({
+    defaults: { ease: 'power2.out' },
+    onComplete: () => {
+      if(loader){
+        loader.style.display = 'none';
+        loader.setAttribute('aria-hidden', 'true');
+      }
+      document.body.classList.add('page-loaded');
     }
   });
+
+  loadTl
+    .fromTo('.loader-logo-card', { autoAlpha: 0, y: 18, scale: 0.94 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: 'back.out(1.4)' })
+    .to(progressObj, {
+      val: 100,
+      duration: 0.95,
+      ease: 'power1.inOut',
+      onUpdate: () => {
+        const p = Math.round(progressObj.val);
+        if(percentEl) percentEl.textContent = `${p}%`;
+        if(loaderFill) loaderFill.style.width = `${p}%`;
+        if(statusEl){
+          if(p < 30) statusEl.textContent = 'INITIALIZING SPECIFICATIONS';
+          else if(p < 68) statusEl.textContent = 'LOADING PRODUCT RANGE';
+          else if(p < 96) statusEl.textContent = 'PREPARING WHOLESALE OUTLETS';
+          else statusEl.textContent = 'READY';
+        }
+      }
+    }, '-=0.1')
+    .to(loader, {
+      autoAlpha: 0,
+      yPercent: -100,
+      duration: 0.7,
+      ease: 'power3.inOut'
+    }, '+=0.05');
+
+  // Hero elements entrance synced right after loader lifts
+  gsap.fromTo('.site-header', { y: -45, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.85, delay: 0.8, ease });
+  gsap.fromTo('.hero-copy > *', { y: 44, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.85, stagger: 0.12, delay: 0.95, ease, clearProps: 'transform,opacity,visibility' });
+  gsap.fromTo('.hero-backdrop', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.2, delay: 0.7, ease: 'power2.out' });
+  gsap.fromTo('.hero-backdrop > img', { scale: 1.14 }, { scale: 1.04, duration: 2.4, delay: 0.7, ease: 'power3.out', clearProps: 'transform' });
+  gsap.fromTo('.hero-backdrop-tint', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.2, delay: 0.8, ease: 'power2.out' });
+  gsap.fromTo('.hero-float-left', { x: -45, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, delay: 1.3, ease, clearProps: 'transform,opacity,visibility' });
+  gsap.fromTo('.hero-float-right', { x: 45, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, delay: 1.4, ease, clearProps: 'transform,opacity,visibility' });
+  gsap.fromTo('.hero-scroll-cue', { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, delay: 1.55, ease, clearProps: 'transform,opacity,visibility' });
+  
+  // Parallax on hero image
+  gsap.to('.hero-backdrop > img', { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '.hero-overlay', start: 'top top', end: 'bottom top', scrub: 1.2 } });
+
+  // Reading scroll progress indicator at top of page
+  const progressBar = document.querySelector('#scroll-progress');
+  if(progressBar){
+    gsap.to(progressBar, {
+      scaleX: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: 'body',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.15
+      }
+    });
+  }
+
+  // Trust grid indicators
+  gsap.fromTo('.trust-grid > div', { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.1, ease, scrollTrigger: { trigger: '.trust-strip', start: 'top 90%', once: true }, clearProps: 'transform,opacity,visibility' });
+
+  // Section reveals
+  gsap.utils.toArray('.section-heading, .story-copy, .authenticity-grid > div:first-child, .configure-callout, .stores-note, .cta-content, .footer-top').forEach(el=>{
+    gsap.fromTo(el, { y: 42, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, ease, scrollTrigger: { trigger: el, start: 'top 88%', once: true }, clearProps: 'transform,opacity,visibility' });
+  });
+
+  gsap.utils.toArray('.story-media, .catalogue-frame').forEach((el, i)=>{
+    gsap.fromTo(el, { x: i % 2 ? 45 : -45, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 1.05, ease, scrollTrigger: { trigger: el, start: 'top 88%', once: true }, clearProps: 'transform,opacity,visibility' });
+  });
+
+  gsap.utils.toArray('.product-grid, .application-grid, .process-grid, .store-grid, .why-grid').forEach(grid=>{
+    const cards = Array.from(grid.children).filter(el => el.matches('.product-card,.application-card,.process-item,.store-card,.why-grid > div'));
+    if(!cards.length) return;
+    gsap.fromTo(cards, { y: 48, autoAlpha: 0, scale: 0.97 }, { y: 0, autoAlpha: 1, scale: 1, duration: 0.75, stagger: 0.1, ease, scrollTrigger: { trigger: grid, start: 'top 85%', once: true }, clearProps: 'transform,opacity,visibility' });
+  });
+
+  gsap.utils.toArray('.product-card, .store-card, .application-card').forEach(card=>{
+    if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+      const image = card.querySelector('img');
+      card.addEventListener('mouseenter', ()=>{
+        gsap.to(card, { y: -6, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+        if(image) gsap.to(image, { scale: 1.065, duration: 0.55, ease, overwrite: 'auto' });
+      });
+      card.addEventListener('mouseleave', ()=>{
+        gsap.to(card, { y: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+        if(image) gsap.to(image, { scale: 1, duration: 0.55, ease, overwrite: 'auto' });
+      });
+    }
+  });
+
   gsap.utils.toArray('.story-media img, .catalogue-frame img, .cta-media img').forEach(img=>{
-    gsap.fromTo(img,{yPercent:-5},{yPercent:5,ease:'none',scrollTrigger:{trigger:img.closest('figure,section')||img,start:'top bottom',end:'bottom top',scrub:1.2}});
+    gsap.fromTo(img, { yPercent: -5 }, { yPercent: 5, ease: 'none', scrollTrigger: { trigger: img.closest('figure,section') || img, start: 'top bottom', end: 'bottom top', scrub: 1.2 } });
   });
-  gsap.utils.toArray('.process-line').forEach(line=>gsap.fromTo(line,{scaleX:0,transformOrigin:'left center'},{scaleX:1,duration:1,ease:'power2.out',scrollTrigger:{trigger:line,start:'top 85%',once:true},clearProps:'transform'}));
-  gsap.utils.toArray('.eyebrow .rule').forEach(rule=>gsap.fromTo(rule,{scaleX:0,transformOrigin:'left'},{scaleX:1,duration:.8,ease,scrollTrigger:{trigger:rule,start:'top 94%',once:true},clearProps:'transform'}));
+
+  gsap.utils.toArray('.process-line').forEach(line => gsap.fromTo(line, { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 1, ease: 'power2.out', scrollTrigger: { trigger: line, start: 'top 85%', once: true }, clearProps: 'transform' }));
+  gsap.utils.toArray('.eyebrow .rule').forEach(rule => gsap.fromTo(rule, { scaleX: 0, transformOrigin: 'left' }, { scaleX: 1, duration: 0.8, ease, scrollTrigger: { trigger: rule, start: 'top 94%', once: true }, clearProps: 'transform' }));
+
   gsap.utils.toArray('.button').forEach(button=>{
-    if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
-    button.addEventListener('mouseenter',()=>gsap.to(button,{scale:1.035,duration:.23,ease:'power2.out',overwrite:'auto'}));
-    button.addEventListener('mouseleave',()=>gsap.to(button,{scale:1,duration:.23,ease:'power2.out',overwrite:'auto'}));
+    if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+    button.addEventListener('mouseenter', () => gsap.to(button, { scale: 1.03, duration: 0.22, ease: 'power2.out', overwrite: 'auto' }));
+    button.addEventListener('mouseleave', () => gsap.to(button, { scale: 1, duration: 0.22, ease: 'power2.out', overwrite: 'auto' }));
   });
-  // Subtle entrance for the modal without interfering with the configurator state.
-  const originalOpenConfig=openConfig;
-  openConfig=function(preselect=null){
+
+  const originalOpenConfig = openConfig;
+  openConfig = function(preselect = null){
     originalOpenConfig(preselect);
-    gsap.fromTo('.config-shell',{y:24,autoAlpha:.6,scale:.985},{y:0,autoAlpha:1,scale:1,duration:.48,ease,clearProps:'transform,opacity,visibility'});
+    gsap.fromTo('.config-shell', { y: 24, autoAlpha: 0.6, scale: 0.985 }, { y: 0, autoAlpha: 1, scale: 1, duration: 0.48, ease, clearProps: 'transform,opacity,visibility' });
   };
-  // The handlers above bind openConfig dynamically via their arrow callbacks.
+
   ScrollTrigger.refresh();
 }
 initMotion();

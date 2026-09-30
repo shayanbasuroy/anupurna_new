@@ -11,19 +11,32 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="page-loader" id="page-loader" aria-hidden="true"><div class="loader-inner"><img src="assets/anapurna-logo-new.png" alt=""><span class="loader-track"><span class="loader-fill"></span></span><span class="loader-caption">MANUFACTURING · KOLKATA</span></div></div>
+<div class="page-loader" id="page-loader" aria-hidden="true">
+  <div class="loader-backdrop-glow"></div>
+  <div class="loader-inner">
+    <div class="loader-logo-card">
+      <img src="assets/anapurna-logo-new.png" alt="Anapurna Manufactures">
+    </div>
+    <div class="loader-track"><div class="loader-fill" id="loader-fill"></div></div>
+    <div class="loader-row">
+      <span class="loader-status" id="loader-status">INITIALIZING SPECIFICATIONS</span>
+      <span class="loader-percent" id="loader-percent">0%</span>
+    </div>
+  </div>
+</div>
+<div class="scroll-progress-bar" id="scroll-progress" aria-hidden="true"></div>
 <header class="site-header" id="site-header">
   <div class="container nav-wrap">
     <a class="brand" href="#top" aria-label="Anapurna Manufactures home">
       <img src="assets/anapurna-logo-new.png" alt="Anapurna Manufactures" class="brand-logo">
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="#products">Products</a><a href="#applications">Applications</a><a href="#manufacturing">Manufacturing</a><a href="#stores">Stores</a><a href="#about">About</a><a href="#contact">Contact</a>
+      <a href="#products">Products</a><a href="#applications">Applications</a><a href="#manufacturing">Manufacturing</a><a href="#stores">Wholesale Outlets</a><a href="#about">About</a><a href="#contact">Contact</a>
     </nav>
     <div class="nav-actions"><button type="button" class="button button-dark compact" data-open-config>Configure Product <span>↗</span></button><button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button></div>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#products">Products</a><a href="#applications">Applications</a><a href="#manufacturing">Manufacturing</a><a href="#stores">Stores</a><a href="#about">About</a><a href="#contact">Contact</a>
+    <a href="#products">Products</a><a href="#applications">Applications</a><a href="#manufacturing">Manufacturing</a><a href="#stores">Wholesale Outlets</a><a href="#about">About</a><a href="#contact">Contact</a>
     <button type="button" class="button button-dark" data-open-config>Configure Product <span>↗</span></button>
   </div>
 </header>
@@ -42,10 +55,10 @@
       <p class="hero-lede">Polythene sheets made for agriculture, construction, packaging, transport, temporary shelter and everyday industrial requirements.</p>
       <div class="button-row"><button type="button" class="button button-yellow" data-open-config>Configure your sheet <span>↗</span></button><a class="button hero-button-light" href="#products">See products <span>↓</span></a></div>
     </div>
-    <div class="hero-float hero-float-left"><span class="float-icon">01</span><div><b>Made in Kolkata</b><small>Real manufacturing environment</small></div></div>
-    <div class="hero-float hero-float-right"><span class="float-icon">02</span><div><b>Built to specify</b><small>Material · width · gauge · colour</small></div></div>
+    <div class="hero-float hero-float-left"><span class="float-icon">01</span><div><b>Made in Kolkata</b><small>Direct factory manufacturing</small></div></div>
+    <div class="hero-float hero-float-right"><span class="float-icon">02</span><div><b>Wholesale Specifications</b><small>Material · width · gauge · colour</small></div></div>
     <div class="hero-scroll-cue"><span></span> SCROLL TO EXPLORE</div>
-    <div class="hero-location"><span class="rule"></span><span>ANAPURNA MANUFACTURES LTD.</span></div>
+    <div class="hero-location"><span class="rule"></span><span>ANAPURNA MANUFACTURES</span></div>
   </div>
 </section>
 
@@ -109,10 +122,10 @@
 </div></section>
 
 <section class="section-pad stores" id="stores"><div class="container">
-  <div class="section-heading reveal"><div class="eyebrow"><span class="rule"></span> FIND US</div><h2>Retail &amp;<br><em>wholesale.</em></h2><p>For customers who prefer to visit in person, Anapurna's N. S. Road outlets provide a direct point of contact for retail and wholesale requirements.</p></div>
+  <div class="section-heading reveal"><div class="eyebrow"><span class="rule"></span> WHOLESALE OUTLETS</div><h2>Wholesale<br><em>distribution.</em></h2><p>For buyers, traders and commercial enterprises, Anapurna's N. S. Road locations operate as direct wholesale distribution outlets for bulk polythene sheets, rolls and trade supply.</p></div>
   <div class="store-grid reveal-stagger">
     <article class="store-card">
-      <div class="store-top"><span class="store-number">01</span><span class="store-type">RETAIL SHOP</span></div>
+      <div class="store-top"><span class="store-number">01</span><span class="store-type">WHOLESALE OUTLET</span></div>
       <h3>Radha Krishna Co</h3>
       <p class="store-address">161, N. S Road<br>Kolkata-07</p>
       <a class="store-link" href="https://www.google.com/maps/search/?api=1&amp;query=161%20N%20S%20Road%20Kolkata%20700007" target="_blank" rel="noopener noreferrer">Get directions <span>↗</span></a>
@@ -124,7 +137,7 @@
       <a class="store-link" href="https://www.google.com/maps/search/?api=1&amp;query=137%20N%20S%20Road%20Kolkata%20700001" target="_blank" rel="noopener noreferrer">Get directions <span>↗</span></a>
     </article>
   </div>
-  <div class="stores-note reveal"><div><span class="eyebrow"><span class="rule"></span> NEED A QUICK ANSWER?</span><p>Message the Anapurna team directly on WhatsApp for product availability, specifications and wholesale enquiries.</p></div><a class="button button-dark" href="https://wa.me/919903603052" target="_blank" rel="noopener noreferrer">WhatsApp us <span>↗</span></a></div>
+  <div class="stores-note reveal"><div><span class="eyebrow"><span class="rule"></span> WHOLESALE ENQUIRIES</span><p>Message the Anapurna wholesale sales desk directly on WhatsApp for bulk pricing, specifications and dispatch schedules.</p></div><a class="button button-dark" href="https://wa.me/919903603052" target="_blank" rel="noopener noreferrer">WhatsApp wholesale <span>↗</span></a></div>
 </div></section>
 
 <section class="section-pad why"><div class="container"><div class="section-heading centered reveal"><div class="eyebrow"><span class="rule"></span> WHY ANAPURNA</div><h2>Clear information.<br><em>Practical buying.</em></h2></div>
@@ -140,7 +153,7 @@
 <section class="cta-section reveal" id="contact"><div class="cta-media"><img src="assets/factory-exterior-focus.jpeg" alt="Anapurna Manufactures factory exterior" loading="lazy"></div><div class="cta-overlay"></div><div class="container cta-content"><div class="eyebrow light-eyebrow"><span class="rule"></span> READY TO SPECIFY?</div><h2>Have a specific<br><em>requirement?</em></h2><p>Choose the product configuration and send the specification to the Anapurna Manufactures sales team.</p><button type="button" class="button button-yellow" data-open-config>Configure your product <span>↗</span></button></div></section>
 </main>
 
-<footer class="site-footer"><div class="container"><div class="footer-top"><div class="footer-brand"><img src="assets/anapurna-logo-new.png" alt="Anapurna Manufactures" class="footer-logo"><p>Strong sheets. Brighter solutions. A straightforward product experience for B2B polythene sheet requirements.</p></div><div class="footer-links"><div><b>Products</b><a href="#products">White Material</a><a href="#products">Black Material</a><a href="#products">Nylon</a><a href="#products">Fancy Colour</a><a href="#products">Patta Chak</a></div><div><b>Applications</b><a href="#applications">Agriculture</a><a href="#applications">Construction</a><a href="#applications">Packaging</a><a href="#applications">Transport</a><a href="#applications">General Use</a></div><div><b>Company</b><a href="#about">About</a><a href="#manufacturing">Manufacturing</a><a href="#stores">Stores</a><a href="#contact">Contact</a><button type="button" class="footer-config" data-open-config>Configure Product ↗</button></div></div></div><div class="footer-bottom"><span>© 2026 Anapurna Manufactures Ltd.</span><span>Product information shown from supplied catalogue sheets.</span></div></div></footer>
+<footer class="site-footer"><div class="container"><div class="footer-top"><div class="footer-brand"><img src="assets/anapurna-logo-new.png" alt="Anapurna Manufactures" class="footer-logo"><p>Strong sheets. Brighter solutions. A straightforward product experience for B2B polythene sheet requirements.</p></div><div class="footer-links"><div><b>Products</b><a href="#products">White Material</a><a href="#products">Black Material</a><a href="#products">Nylon</a><a href="#products">Fancy Colour</a><a href="#products">Patta Chak</a></div><div><b>Applications</b><a href="#applications">Agriculture</a><a href="#applications">Construction</a><a href="#applications">Packaging</a><a href="#applications">Transport</a><a href="#applications">General Use</a></div><div><b>Company</b><a href="#about">About</a><a href="#manufacturing">Manufacturing</a><a href="#stores">Wholesale Outlets</a><a href="#contact">Contact</a><button type="button" class="footer-config" data-open-config>Configure Product ↗</button></div></div></div><div class="footer-bottom"><span>© 2026 Anapurna Manufactures</span><span>Product information shown from supplied catalogue sheets.</span></div></div></footer>
 
 <!-- CONFIGURATOR -->
 <div class="modal" id="config-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="config-title">

@@ -11,7 +11,7 @@ This version keeps the original industrial/editorial direction but simplifies th
 - Mobile selector uses a full-screen one-step flow with internal scrolling so options are not clipped.
 - Added subtle scroll-reveal and stagger animations with reduced-motion support.
 - Simplified copy and navigation.
-- Updated product data to reflect the supplied catalogue sheets, including Mili, India/Varasa and the corrected widths/gauges.
+- Updated product data to reflect the supplied catalogue sheets, including Mili, India/Varsa and the corrected widths/gauges.
 - Quote form carries the exact selected configuration.
 
 ## Run
@@ -20,7 +20,7 @@ Open `index.html` directly or deploy the folder to a static host such as Vercel/
 ## Backend
 The quote form currently demonstrates the frontend flow and logs a payload in the browser console. Connect the submit handler to `POST /api/quote-request`, Supabase, an email service or your CRM when backend credentials are available.
 
-## Retail & Wholesale Locations
-- Radha Krishna Co — Shop 1, 161 N. S Road, Kolkata-07
-- Radha Gobinda Co — Shop 2 / Wholesale Outlet, 137 N. S Road, Kolkata-01
+## Wholesale Outlets
+- Radha Krishna Co — Wholesale Outlet 1, 161 N. S Road, Kolkata-07
+- Radha Gobinda Co — Wholesale Outlet 2, 137 N. S Road, Kolkata-01
 - WhatsApp: +91 99036 03052
