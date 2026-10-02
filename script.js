@@ -1,4 +1,4 @@
-/* Anapurna Manufactures — production-ready interaction layer */
+/* Anapurna Manufacturers — production-ready interaction layer */
 
 const products = [
   // WHITE MATERIAL / F-S — based on supplied product chart
@@ -240,7 +240,7 @@ const WHATSAPP_NUMBER = '919903603052';
 function buildWhatsAppMessage(){
   const s = state.selection;
   return [
-    'Hello Anapurna Manufactures,',
+    'Hello Anapurna Manufacturers,',
     '',
     'I am enquiring about the following polythene sheet requirement:',
     '',
