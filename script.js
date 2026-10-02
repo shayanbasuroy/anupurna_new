@@ -153,7 +153,7 @@ function renderOptions(step){
   if(key==='material') return `<div class="visual-options material-options">${materials.map(m=>optionButton({value:m.name,label:m.name,sub:m.desc,image:m.image,selected:state.selection.material===m.name,kind:'visual'})).join('')}</div>`;
   if(key==='brand') return `<div class="visual-options brand-options">${brandsForMaterial().map(b=>optionButton({value:b.name,label:b.name,sub:'Available for this material',image:`assets/logos/${b.logo}.jpg`,selected:state.selection.brand===b.name,kind:'visual'})).join('')}</div>`;
   if(key==='colour') return `<div class="choice-grid colour-options">${opts.map(v=>`<button type="button" class="choice-option ${state.selection.colour===v?'selected':''}" data-value="${String(v).replace(/"/g,'&quot;')}" aria-pressed="${state.selection.colour===v}"><span class="swatch" style="--swatch:${colorSwatch(v)}"></span><strong>${v}</strong><i aria-hidden="true">✓</i></button>`).join('')}</div>`;
-  return `<div class="choice-grid">${opts.map(v=>optionButton({value:v,label:key==='gauge'?`${v} gauge`:v,sub:key==='size'?'Sheet width':key==='gauge'?'Sheet thickness':'Available option',selected:String(state.selection[key])===String(v)})).join('')}</div>`;
+  return `<div class="choice-grid">${opts.map(v=>optionButton({value:v,label:key==='gauge'?`${v} gauge`:v,sub:key==='size'?'Sheet width':key==='gauge'?'Sheet gauge':'Available option',selected:String(state.selection[key])===String(v)})).join('')}</div>`;
 }
 
 function renderPreview(){
@@ -244,11 +244,15 @@ function buildWhatsAppMessage(){
     '',
     'I am enquiring about the following polythene sheet requirement:',
     '',
-    `Material: ${s.material || '—'}`,
-    `Brand: ${s.brand || '—'}`,
-    `Width: ${s.size || '—'}`,
-    `Gauge: ${s.gauge ? `${s.gauge} gauge` : '—'}`,
-    `Colour: ${s.colour || '—'}`,
+    `• Material: ${s.material || '—'}`,
+    `• Brand: ${s.brand || '—'}`,
+    `• Width: ${s.size || '—'}`,
+    `• Gauge: ${s.gauge ? `${s.gauge} gauge` : '—'}`,
+    `• Colour: ${s.colour || '—'}`,
+    '',
+    '• Quantity Required: [Please specify rolls / kg]',
+    '• Delivery Location: [Please specify city / address]',
+    '• Name / Firm: [Please enter your name or company]',
     '',
     'Please share the quotation, availability and next steps. Thank you.'
   ].join('\n');
