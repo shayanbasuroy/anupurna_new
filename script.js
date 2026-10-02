@@ -119,7 +119,7 @@ function renderSummary(){
   const labels={material:'Material',brand:'Brand',size:'Width',gauge:'Gauge',colour:'Colour'};
   const vals=steps.filter(s=>state.selection[s.key]!==null);
   $('#mini-summary').innerHTML=vals.length
-    ? vals.map(s=>`<div><span>${labels[s.key]}</span><strong>${state.selection[s.key]}${s.key==='gauge'?' micron':''}</strong></div>`).join('')
+    ? vals.map(s=>`<div><span>${labels[s.key]}</span><strong>${state.selection[s.key]}${s.key==='gauge'?' gauge':''}</strong></div>`).join('')
     : '<div><span>YOUR CONFIGURATION</span><strong>Nothing selected yet</strong></div>';
 }
 
@@ -153,7 +153,7 @@ function renderOptions(step){
   if(key==='material') return `<div class="visual-options material-options">${materials.map(m=>optionButton({value:m.name,label:m.name,sub:m.desc,image:m.image,selected:state.selection.material===m.name,kind:'visual'})).join('')}</div>`;
   if(key==='brand') return `<div class="visual-options brand-options">${brandsForMaterial().map(b=>optionButton({value:b.name,label:b.name,sub:'Available for this material',image:`assets/logos/${b.logo}.jpg`,selected:state.selection.brand===b.name,kind:'visual'})).join('')}</div>`;
   if(key==='colour') return `<div class="choice-grid colour-options">${opts.map(v=>`<button type="button" class="choice-option ${state.selection.colour===v?'selected':''}" data-value="${String(v).replace(/"/g,'&quot;')}" aria-pressed="${state.selection.colour===v}"><span class="swatch" style="--swatch:${colorSwatch(v)}"></span><strong>${v}</strong><i aria-hidden="true">✓</i></button>`).join('')}</div>`;
-  return `<div class="choice-grid">${opts.map(v=>optionButton({value:v,label:key==='gauge'?`${v} micron`:v,sub:key==='size'?'Sheet width':key==='gauge'?'Sheet thickness':'Available option',selected:String(state.selection[key])===String(v)})).join('')}</div>`;
+  return `<div class="choice-grid">${opts.map(v=>optionButton({value:v,label:key==='gauge'?`${v} gauge`:v,sub:key==='size'?'Sheet width':key==='gauge'?'Sheet thickness':'Available option',selected:String(state.selection[key])===String(v)})).join('')}</div>`;
 }
 
 function renderPreview(){
@@ -164,7 +164,7 @@ function renderPreview(){
   const image=material?.image || 'assets/material-white-card.jpg';
   const logo=brand?.logo ? `assets/logos/${brand.logo}.jpg` : null;
   const title=s.material || 'Choose a material';
-  const detail=s.brand ? `${s.brand}${s.size?` · ${s.size}`:''}${s.gauge?` · ${s.gauge} micron`:''}` : 'Start with a material';
+  const detail=s.brand ? `${s.brand}${s.size?` · ${s.size}`:''}${s.gauge?` · ${s.gauge} gauge`:''}` : 'Start with a material';
   el.innerHTML=`<div class="preview-kicker">CURRENT SELECTION</div><div class="preview-media"><img src="${image}" alt="${title}"></div>${logo?`<div class="preview-brand"><img src="${logo}" alt="${s.brand} logo"><div><span>BRAND</span><strong>${s.brand}</strong></div></div>`:''}<div class="preview-copy"><span>${title}</span><strong>${detail}</strong></div><div class="preview-line"></div><p>Only valid combinations continue to the next step.</p>`;
 }
 
@@ -247,7 +247,7 @@ function buildWhatsAppMessage(){
     `Material: ${s.material || '—'}`,
     `Brand: ${s.brand || '—'}`,
     `Width: ${s.size || '—'}`,
-    `Gauge: ${s.gauge ? `${s.gauge} micron` : '—'}`,
+    `Gauge: ${s.gauge ? `${s.gauge} gauge` : '—'}`,
     `Colour: ${s.colour || '—'}`,
     '',
     'Please share the quotation, availability and next steps. Thank you.'
