@@ -34,11 +34,11 @@ const products = [
   ].flatMap(({size,gauges}) => gauges.map(gauge => ({material:'Fancy Colour',brand,size,gauge,colours:['Red','Green (K.P)','Blue','Pink','Yellow'],logo})))),
 
   // PATTA CHAK — supplied chart
-  ...['54"'].flatMap(size => [300,400].map(gauge=>({material:'Patta Chak',brand:'India',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'indian'}))),
-  ...['54"','72"'].flatMap(size => [300,400].map(gauge=>({material:'Patta Chak',brand:'Polar White',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'polar-white'}))),
+  ...['54"'].flatMap(size => [300,400].map(gauge=>({material:'Pataa Check',brand:'India',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'indian'}))),
+  ...['54"','72"'].flatMap(size => [300,400].map(gauge=>({material:'Pataa Check',brand:'Polar White',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'polar-white'}))),
   ...[{brand:'Bharosha',logo:'bharosha',size:'54"',gauge:300},{brand:'Bharosha',logo:'bharosha',size:'36"',gauge:250},
      {brand:'Sisa',logo:'sisa',size:'54"',gauge:300},{brand:'Sisa',logo:'sisa',size:'36"',gauge:250}]
-    .map(p=>({...p,material:'Patta Chak',colours:['K.P (green)','Blue','Red','Pink','Yellow']}))
+    .map(p=>({...p,material:'Pataa Check',colours:['K.P (green)','Blue','Red','Pink','Yellow']}))
 ];
 
 const materials = [
@@ -46,7 +46,7 @@ const materials = [
   {name:'Black', image:'assets/material-black-card.jpg', desc:'Black material range'},
   {name:'Nylon', image:'assets/material-nylon-card.jpg', desc:'Nylon sheet range'},
   {name:'Fancy Colour', image:'assets/material-fancy-card.jpg', desc:'Colour sheet range'},
-  {name:'Patta Chak', image:'assets/material-patta-card.jpg', desc:'Patta Chak colour range'}
+  {name:'Pataa Check', image:'assets/material-patta-card.jpg', desc:'Pataa Check (Stripes) range'}
 ];
 
 const steps = [
