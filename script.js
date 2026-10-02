@@ -34,7 +34,7 @@ const products = [
   ].flatMap(({size,gauges}) => gauges.map(gauge => ({material:'Fancy Colour',brand,size,gauge,colours:['Red','Green (K.P)','Blue','Pink','Yellow'],logo})))),
 
   // PATTA CHAK — supplied chart
-  ...['54"'].flatMap(size => [300,400].map(gauge=>({material:'Pataa Check',brand:'India',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'indian'}))),
+  ...['54"'].flatMap(size => [300,400].map(gauge=>({material:'Pataa Check',brand:'Indian',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'indian'}))),
   ...['54"','72"'].flatMap(size => [300,400].map(gauge=>({material:'Pataa Check',brand:'Polar White',size,gauge,colours:['K.P (green)','Blue','Red','Pink','Yellow'],logo:'polar-white'}))),
   ...[{brand:'Bharosha',logo:'bharosha',size:'54"',gauge:300},{brand:'Bharosha',logo:'bharosha',size:'36"',gauge:250},
      {brand:'Sisa',logo:'sisa',size:'54"',gauge:300},{brand:'Sisa',logo:'sisa',size:'36"',gauge:250}]
@@ -223,7 +223,10 @@ function updateControls(){
 
 function renderAll(){renderProgress();renderSummary();renderStep();}
 
+let lastActiveElement = null;
+
 function openConfig(preselect=null){
+  lastActiveElement = document.activeElement;
   document.body.classList.add('modal-open');
   configModal.classList.add('open');
   configModal.setAttribute('aria-hidden','false');
@@ -232,7 +235,14 @@ function openConfig(preselect=null){
   if(preselect && isValidSelection('material',preselect)) state.selection.material=preselect;
   renderAll();
 }
-function closeConfig(){configModal.classList.remove('open');configModal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');}
+function closeConfig(){
+  configModal.classList.remove('open');
+  configModal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
+  if(lastActiveElement && typeof lastActiveElement.focus === 'function'){
+    lastActiveElement.focus();
+  }
+}
 function productValid(){const s=state.selection;return products.some(p=>p.material===s.material&&p.brand===s.brand&&p.size===s.size&&p.gauge===Number(s.gauge)&&p.colours.includes(s.colour));}
 
 const WHATSAPP_NUMBER = '919903603052';
@@ -280,7 +290,7 @@ $('#config-next').addEventListener('click',event=>{
 
 const menu=$('#mobile-menu');
 $('.menu-toggle').addEventListener('click',()=>{const open=menu.classList.toggle('open');$('.menu-toggle').setAttribute('aria-expanded',String(open));});
-$$('#mobile-menu a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');$('.menu-toggle').setAttribute('aria-expanded','false');}));
+$$('#mobile-menu a, #mobile-menu button').forEach(el=>el.addEventListener('click',()=>{menu.classList.remove('open');$('.menu-toggle').setAttribute('aria-expanded','false');}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeConfig();});
 
 bindStepEvents();
