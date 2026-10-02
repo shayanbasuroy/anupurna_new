@@ -1,4 +1,4 @@
-# Anapurna Manufactures Website — Revised
+# Anapurna Manufacturers Website — Revised
 
 This version keeps the original industrial/editorial direction but simplifies the UX for a practical B2B audience.
 
